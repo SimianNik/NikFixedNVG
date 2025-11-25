@@ -56,7 +56,8 @@ This is closer to how real NVGs behave:  _the goggles don’t zoom, your eyes do
 
 This mod consists of a single file that replaces a DCS **core shader**, so it **cannot** be installed via the Saved Games folder.
 
-You must overwrite (replace): `DCS World OpenBeta/Bazar/Shaders/PostEffects/NVD_common.hlsl`  with the included file.
+You must overwrite (replace): `DCS World OpenBeta/Bazar/Shaders/PostEffects/NVD_common.hlsl`  with the included file. (You can download it from the "Releases" section  https://github.com/SimianNik/NikFixedNVG/releases)
+
 
 > **Make a backup of the original file**  
 > (or keep the original version included in this repo inside the comment block)
