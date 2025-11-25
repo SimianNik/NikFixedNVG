@@ -1,6 +1,13 @@
+// This mod includes modifications to the original shader code © Eagle Dynamics. Modifications © SimianNik (MIT License).
+// This file includes excerpts of Eagle Dynamics' original shader (© ED),
+// reproduced here in commented form for documentation and patching purposes.
+// This is a derivative mod and requires the original DCS installation.
+// No ED assets are redistributed.
+
 // ---------------------------------------------------------------
 // Original file's content (as of 2.9.21.16552). In case of no backup?
 // ---------------------------------------------------------------
+
 /*
     #ifndef _NVD_COMMON_
     #define _NVD_COMMON_
@@ -47,7 +54,7 @@
 */
 
 // ---------------------------------------------------------------
-// Modification Start
+// Content (ED + SimiankNik modification)
 // ---------------------------------------------------------------
 #ifndef _NVD_COMMON_
 #define _NVD_COMMON_
@@ -55,24 +62,20 @@
 #include "common/context.hlsl"
 
 // ---------------------------------------------------------------
-// User-Controllable Parameters
+// User-Controllable Parameters (Modify values at will)
 // ---------------------------------------------------------------
 
-// Vertical offset of the NVG mask. The game by default puts the mask a bit upwards on the screen
-float NVD_OFFSET_VERT = 0.0;
+float NVD_OFFSET_VERT = 0.1;    // Vertical offset of the NVG mask. The game by default puts the mask a bit upwards on the screen.
+float NVD_OVAL_X = 1.2;         // Horizontal stretch of the NVG oval ( >1 = wider )
+float NVD_OVAL_Y = 0.8;         // Vertical stretch of the NVG oval ( >1 = taller )
+float NVD_SIZE = 0.5;           // NVG "size" (screen space). A value of 0.5 = arround a 45° FOV coverage. Larger = bigger NVG mask | Smaller = tighter NVG mask.
+float NVD_MAX_SCALE = 2;        // FOV Clamp limit (prevent mask from becoming too small when zooming out, after reaching this limit it will grow with the screen.) 
+float NVD_MIN_SCALE = 0.5;      // FOV Clamp limit (prevent mask from becoming too big when zooming in, after reaching this limit it will shrink with the screen.)
 
-// Horizontal/vertical stretch of the NVG mask.
-// 1.0 = perfect circle.
-float NVD_OVAL_X = 1.15;  
-float NVD_OVAL_Y = 0.90;
 
-// NVG "size" (screen space).
-float NVD_SIZE = 0.5; //~0.5  = arround a 45° FOV coverage. Larger = bigger NVG mask | Smaller = tighter NVG mask.
-
-// Clamp limits (prevent mask from becoming too big or too small)
-float NVD_MAX_SCALE = 2;   // max on-screen scale when increasing the game's FOV (Zoomed out)
-float NVD_MIN_SCALE = 0.5; // min on-screen scale when decreasing the game's FOV (Zoomed in)
-
+// ---------------------------------------------------------------
+// MASK_SIZE & Functions 
+// --------------------------------------------------------------- 
 #define MASK_SIZE (1.0 / 0.8)
 
 float getMask(float2 c, float mul)
@@ -80,9 +83,7 @@ float getMask(float2 c, float mul)
     return saturate(mul * (1 - sqrt(dot(c, c))));
 }
 
-// ---------------------------------------------------------------
 // Main NVG Mask Coordinate Function
-// ---------------------------------------------------------------
 float2 calcMaskCoord(float2 projPos)
 {
     // Compute vertical FOV
